@@ -9,14 +9,25 @@
   os_networks_facts:
   always_run: yes
 
-- debug:
-    msg: >
-      {{ (openstack_servers |
-           selectattr("name", "equalto", idr_instance_network_server) | list)
-           .0.networks }}
+- name: idr vm | debug server
+  debug:
+    msg: "{{ idr_instance_network_server }}"
     verbosity: 1
 
-- debug:
+- name: idr vm | debug server networks
+  debug:
+    msg: >
+      {{
+        (openstack_servers |
+          selectattr(idr_instance_networks_server_key, "equalto", idr_instance_network_server) |
+          first |
+          default( {'networks': []} ))
+        .networks
+      }}
+    verbosity: 1
+
+- name: idr vm | debug required networks
+  debug:
     msg: >
       {{ (openstack_networks | selectattr("name", "equalto", item) | list)
       }}
@@ -31,7 +42,12 @@
         selectattr("name", "equalto", item) | list).0.id }}
       {{ idr_instance_network_server }}
   when: >
-    item not in ((openstack_servers |
-      selectattr("name", "equalto", idr_instance_network_server) | list).0.networks)
+    item not in (
+      (openstack_servers |
+        selectattr(idr_instance_networks_server_key, "equalto", idr_instance_network_server) |
+        first |
+        default( {'networks': []} ))
+      .networks
+    )
   with_items:
   - "{{ idr_instance_network_networks }}"

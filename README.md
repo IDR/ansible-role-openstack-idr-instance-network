@@ -19,6 +19,9 @@ Required variables:
 - `idr_instance_network_networks`: A list of networks the server should be connected to.
   If the instance is connected to other networks which aren't in this list they *won't* be removed from the server.
 
+Optional variables:
+- `idr_instance_networks_server_key`: Whether to lookup servers by name or id, default `name`
+
 
 Example Playbook
 ----------------

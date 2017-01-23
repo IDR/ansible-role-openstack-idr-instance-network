@@ -1,0 +1,4 @@
+---
+# defaults file for roles/openstack-idr-instance-networks
+
+idr_instance_networks_server_key: name
