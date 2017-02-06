@@ -19,7 +19,7 @@
     msg: >
       {{
         (openstack_servers |
-          selectattr(idr_instance_networks_server_key, "equalto", idr_instance_network_server) |
+          selectattr(idr_instance_network_server_key, "equalto", idr_instance_network_server) |
           first |
           default( {'networks': []} ))
         .networks
@@ -44,7 +44,7 @@
   when: >
     item not in (
       (openstack_servers |
-        selectattr(idr_instance_networks_server_key, "equalto", idr_instance_network_server) |
+        selectattr(idr_instance_network_server_key, "equalto", idr_instance_network_server) |
         first |
         default( {'networks': []} ))
       .networks
