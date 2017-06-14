@@ -3,11 +3,11 @@
 
 - name: idr vm | get openstack servers
   os_server_facts:
-  always_run: yes
+  check_mode: no
 
 - name: idr vm | get openstack networks
   os_networks_facts:
-  always_run: yes
+  check_mode: no
 
 - name: idr vm | debug server
   debug:
