@@ -1,13 +1,14 @@
+---
 # Add networks to an existing instance
 #
 
 - name: idr vm | get openstack servers
   os_server_facts:
-  check_mode: no
+  check_mode: false
 
 - name: idr vm | get openstack networks
   os_networks_facts:
-  check_mode: no
+  check_mode: false
 
 - name: idr vm | debug server
   debug:
@@ -19,7 +20,8 @@
     msg: >
       {{
         (openstack_servers |
-          selectattr(idr_instance_network_server_key, "equalto", idr_instance_network_server) |
+          selectattr(idr_instance_network_server_key, "equalto",
+                     idr_instance_network_server) |
           first |
           default( {'networks': []} ))
         .networks
@@ -33,7 +35,7 @@
       }}
     verbosity: 1
   with_items:
-  - "{{ idr_instance_network_networks }}"
+    - "{{ idr_instance_network_networks }}"
 
 - name: idr vm | attach instance to network
   command: >
@@ -44,10 +46,11 @@
   when: >
     item not in (
       (openstack_servers |
-        selectattr(idr_instance_network_server_key, "equalto", idr_instance_network_server) |
+        selectattr(idr_instance_network_server_key, "equalto",
+                   idr_instance_network_server) |
         first |
         default( {'networks': []} ))
       .networks
     )
   with_items:
-  - "{{ idr_instance_network_networks }}"
+    - "{{ idr_instance_network_networks }}"
