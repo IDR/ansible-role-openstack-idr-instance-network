@@ -3,11 +3,11 @@
 #
 
 - name: idr vm | get openstack servers
-  os_server_facts:
+  openstack.cloud.server_info:
   check_mode: false
 
 - name: idr vm | get openstack networks
-  os_networks_facts:
+  openstack.cloud.network_info:
   check_mode: false
 
 - name: idr vm | debug server
